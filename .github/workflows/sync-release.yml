@@ -1,0 +1,63 @@
+name: Sync Latest Release to Landing Page
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */4 * * *'
+  repository_dispatch:
+    types: [finly-release-published]
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update-site-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site repository
+        uses: actions/checkout@v4
+
+      - name: Fetch latest Finly release tag
+        id: get_release
+        run: |
+          LATEST_JSON=$(curl -s "https://api.github.com/repos/louislefo/Finly/releases/latest")
+          TAG_NAME=$(echo "$LATEST_JSON" | jq -r '.tag_name // empty')
+          if [ -z "$TAG_NAME" ] || [ "$TAG_NAME" = "null" ]; then
+            echo "Failed to fetch latest tag, aborting."
+            exit 0
+          fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Update index.html with latest release
+        if: steps.get_release.outputs.tag_name != ''
+        env:
+          NEW_TAG: ${{ steps.get_release.outputs.tag_name }}
+        run: |
+          python3 -c "
+          import re, os
+          tag = os.environ['NEW_TAG']
+          with open('index.html', 'r', encoding='utf-8') as f:
+              content = f.read()
+
+          # Replace version in class='app-version-text'>...<
+          content = re.sub(r'(class=\"[^\"]*app-version-text[^\"]*\">)([^<]+)(<)', r'\g<1>' + tag + r'\g<3>', content)
+
+          # Replace download links with new tag
+          content = re.sub(r'https://github\.com/louislefo/Finly/releases/download/[^/]+/(Finly-[^\"]+)', r'https://github.com/louislefo/Finly/releases/download/' + tag + r'/\1', content)
+
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(content)
+          "
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [[ -n $(git status -s) ]]; then
+            git add index.html
+            git commit -m "chore: sync landing page binaries to ${{ steps.get_release.outputs.tag_name }}"
+            git push origin main
+          else
+            echo "Landing page already up to date with ${{ steps.get_release.outputs.tag_name }}."
+          fi
