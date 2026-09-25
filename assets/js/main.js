@@ -219,5 +219,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', updateActiveNavOnScroll, { passive: true });
   updateActiveNavOnScroll();
+
+  // Dynamic GitHub Release & Download Synchronization
+  async function syncGitHubRelease() {
+    const REPO = 'louislefo/Finly';
+    const GITHUB_API = `https://api.github.com/repos/${REPO}/releases/latest`;
+    const GITHUB_RELEASES_PAGE = `https://github.com/${REPO}/releases/latest`;
+
+    try {
+      const response = await fetch(GITHUB_API, {
+        headers: { 'Accept': 'application/vnd.github.v3+json' }
+      });
+      
+      let release = null;
+      if (response.ok) {
+        release = await response.json();
+      } else {
+        // Fallback to latest releases list if direct latest endpoint returns 404
+        const listRes = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=1`);
+        if (listRes.ok) {
+          const list = await listRes.json();
+          if (list && list.length > 0) release = list[0];
+        }
+      }
+
+      if (!release) return;
+
+      const tagName = release.tag_name || 'v1.0.0';
+      const releaseUrl = release.html_url || GITHUB_RELEASES_PAGE;
+      const assets = release.assets || [];
+
+      // Update all version tags
+      document.querySelectorAll('.app-version-text').forEach(el => {
+        el.textContent = tagName;
+      });
+
+      // Update release links
+      document.querySelectorAll('.app-release-link').forEach(el => {
+        el.href = releaseUrl;
+      });
+
+      // Helper to find asset download url
+      function getAssetUrl(matcher, fallbackName) {
+        const found = assets.find(a => matcher(a.name.toLowerCase()));
+        return found ? found.browser_download_url : `https://github.com/${REPO}/releases/download/${tagName}/${fallbackName}`;
+      }
+
+      const winSetupUrl = getAssetUrl(n => n.includes('setup') && n.endsWith('.exe'), 'Finly-Setup.exe');
+      const winPortableUrl = getAssetUrl(n => (n.includes('portable') || n === 'finly.exe') && n.endsWith('.exe'), 'Finly-Portable.exe');
+      const macDmgUrl = getAssetUrl(n => n.endsWith('.dmg'), 'Finly-macOS.dmg');
+      const macZipUrl = getAssetUrl(n => n.includes('macos') && n.endsWith('.zip'), 'Finly-macOS.zip');
+      const linuxDebUrl = getAssetUrl(n => n.endsWith('.deb'), 'Finly-Linux-amd64.deb');
+      const linuxTarUrl = getAssetUrl(n => n.includes('linux') && (n.endsWith('.tar.gz') || n.endsWith('.tgz')), 'Finly-Linux-x86_64.tar.gz');
+
+      // Update download buttons by ID
+      const winSetupBtn = document.getElementById('dl-win-setup');
+      if (winSetupBtn) winSetupBtn.href = winSetupUrl;
+
+      const winPortableBtn = document.getElementById('dl-win-portable');
+      if (winPortableBtn) winPortableBtn.href = winPortableUrl;
+
+      const macDmgBtn = document.getElementById('dl-mac-dmg');
+      if (macDmgBtn) macDmgBtn.href = macDmgUrl;
+
+      const macZipBtn = document.getElementById('dl-mac-zip');
+      if (macZipBtn) macZipBtn.href = macZipUrl;
+
+      const linuxDebBtn = document.getElementById('dl-linux-deb');
+      if (linuxDebBtn) linuxDebBtn.href = linuxDebUrl;
+
+      const linuxTarBtn = document.getElementById('dl-linux-tar');
+      if (linuxTarBtn) linuxTarBtn.href = linuxTarUrl;
+
+      // Smart Hero Download Button (adapts to detected user OS)
+      const heroDlBtn = document.getElementById('hero-download-btn');
+      const heroDlLabel = document.getElementById('hero-download-label');
+      const heroDlBadge = document.getElementById('hero-download-badge');
+
+      if (heroDlBtn) {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('mac')) {
+          heroDlBtn.href = macDmgUrl;
+          if (heroDlLabel) heroDlLabel.textContent = 'Download for macOS';
+          if (heroDlBadge) heroDlBadge.textContent = '.dmg';
+        } else if (ua.includes('linux')) {
+          heroDlBtn.href = linuxDebUrl;
+          if (heroDlLabel) heroDlLabel.textContent = 'Download for Linux';
+          if (heroDlBadge) heroDlBadge.textContent = '.deb';
+        } else {
+          heroDlBtn.href = winSetupUrl;
+          if (heroDlLabel) heroDlLabel.textContent = 'Download for Windows';
+          if (heroDlBadge) heroDlBadge.textContent = '.exe';
+        }
+      }
+
+    } catch (err) {
+      console.warn('Could not fetch latest release info:', err);
+    }
+  }
+
+  syncGitHubRelease();
 });
 
