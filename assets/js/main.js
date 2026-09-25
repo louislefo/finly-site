@@ -79,29 +79,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Quickstart Tab Switching Logic
+  // Quickstart / Download Tab Switching Logic
   const quickstartTabBtns = document.querySelectorAll('.quickstart-tab-btn');
   const quickstartPanels = document.querySelectorAll('.quickstart-panel');
+
+  function switchQuickstartTab(targetPanelId) {
+    if (!targetPanelId) return;
+
+    // Update panel visibility
+    quickstartPanels.forEach(panel => {
+      if (panel.id === targetPanelId) {
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    });
+
+    // Update tab bar buttons active state
+    quickstartTabBtns.forEach(btn => {
+      if (btn.getAttribute('data-target') === targetPanelId && !btn.classList.contains('btn-secondary')) {
+        btn.classList.add('active', 'bg-zinc-200', 'dark:bg-zinc-800', 'text-zinc-950', 'dark:text-white');
+        btn.classList.remove('text-zinc-600', 'dark:text-zinc-400');
+      } else if (!btn.classList.contains('btn-secondary')) {
+        btn.classList.remove('active', 'bg-zinc-200', 'dark:bg-zinc-800', 'text-zinc-950', 'dark:text-white');
+        btn.classList.add('text-zinc-600', 'dark:text-zinc-400');
+      }
+    });
+  }
 
   quickstartTabBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      quickstartTabBtns.forEach(b => {
-        b.classList.remove('active', 'bg-zinc-200', 'dark:bg-zinc-800', 'text-zinc-950', 'dark:text-white');
-        b.classList.add('text-zinc-600', 'dark:text-zinc-400');
-      });
-
-      btn.classList.add('active', 'bg-zinc-200', 'dark:bg-zinc-800', 'text-zinc-950', 'dark:text-white');
-      btn.classList.remove('text-zinc-600', 'dark:text-zinc-400');
-
       const targetPanelId = btn.getAttribute('data-target');
-      quickstartPanels.forEach(panel => {
-        if (panel.id === targetPanelId) {
-          panel.classList.remove('hidden');
-        } else {
-          panel.classList.add('hidden');
-        }
-      });
+      switchQuickstartTab(targetPanelId);
     });
   });
 
@@ -184,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Scroll Spy for Floating Pill Header
   const navPillItems = document.querySelectorAll('.nav-pill-item');
-  const sections = ['overview', 'banks', 'app', 'architecture', 'security', 'quickstart']
+  const sections = ['overview', 'banks', 'app', 'architecture', 'security', 'download']
     .map(id => document.getElementById(id))
     .filter(Boolean);
 
