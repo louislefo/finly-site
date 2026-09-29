@@ -4,8 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Finly — Personal Wealth & Finance System</title>
-  <meta name="description" content="Private wealth tracking, direct bank sync, and simple budgeting. Hosted directly on your machine.">
+  <title>Finly — Self-Hosted Personal Wealth &amp; Finance System</title>
+  <meta name="description" content="Private wealth tracking, direct bank sync with Woob, and simple budgeting. 100% self-hosted, encrypted, and open-source personal finance dashboard.">
+  <meta name="keywords" content="finly, self hosted personal finance, open source wealth tracker, direct bank sync, woob banking, budget manager, finary alternative open source, local first finance, net worth tracker, sqlite finance">
+  <meta name="author" content="Louis Lefebvre">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="google-site-verification" content="4wXa6Y7ytgfPB9Kzv66zwqoKlHwgY_TwUFcfS4t-mPc">
+  <link rel="canonical" href="https://louislefo.github.io/finly-site/">
+  <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fcfcfd" media="(prefers-color-scheme: light)">
   
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=8">
@@ -15,10 +22,115 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icon-512.png?v=8">
   
   <!-- Open Graph & Social Cards -->
-  <meta property="og:title" content="Finly — Personal Wealth & Finance System">
-  <meta property="og:description" content="Private wealth tracking, direct bank sync, and simple budgeting on your machine.">
-  <meta property="og:image" content="assets/images/Overview.png">
+  <meta property="og:site_name" content="Finly">
+  <meta property="og:title" content="Finly — Self-Hosted Personal Wealth &amp; Finance System">
+  <meta property="og:description" content="Private wealth tracking, direct bank sync with Woob, and simple budgeting. 100% self-hosted on your machine.">
+  <meta property="og:image" content="https://louislefo.github.io/finly-site/assets/images/Overview.png">
+  <meta property="og:image:secure_url" content="https://louislefo.github.io/finly-site/assets/images/Overview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1920">
+  <meta property="og:image:height" content="1080">
+  <meta property="og:image:alt" content="Finly Personal Finance Dashboard Preview">
+  <meta property="og:url" content="https://louislefo.github.io/finly-site/">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Finly — Self-Hosted Personal Wealth &amp; Finance System">
+  <meta name="twitter:description" content="Private wealth tracking, direct bank sync with Woob, and simple budgeting on your machine.">
+  <meta name="twitter:image" content="https://louislefo.github.io/finly-site/assets/images/Overview.png">
+  <meta name="twitter:image:alt" content="Finly Personal Finance Dashboard Preview">
+  <meta name="twitter:creator" content="@louislefo">
+
+  <!-- JSON-LD Structured Data for Rich Search Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://louislefo.github.io/finly-site/#software",
+        "name": "Finly",
+        "url": "https://louislefo.github.io/finly-site/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Windows 10, Windows 11, macOS, Linux, Docker",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        "description": "Open-source, self-hosted personal wealth tracking and budgeting dashboard with direct local bank synchronization.",
+        "softwareVersion": "1.0.26",
+        "downloadUrl": "https://github.com/louislefo/Finly/releases/latest",
+        "screenshot": "https://louislefo.github.io/finly-site/assets/images/Overview.png",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": {
+          "@type": "Person",
+          "name": "Louis Lefebvre",
+          "url": "https://github.com/louislefo"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://louislefo.github.io/finly-site/#website",
+        "url": "https://louislefo.github.io/finly-site/",
+        "name": "Finly",
+        "description": "Private wealth tracking and budgeting hosted directly on your machine.",
+        "publisher": {
+          "@type": "Person",
+          "name": "Louis Lefebvre"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://louislefo.github.io/finly-site/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Finly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Finly is an open-source, self-hosted personal wealth and budgeting system. It enables users to aggregate bank accounts, track net worth, organize budgets, and forecast cashflow locally without cloud reliance or subscription fees."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Finly connect to bank accounts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Finly integrates the open-source Woob banking connector engine. Connections are established directly between your device's IP address and your financial institution using TLS encryption, completely bypassing third-party cloud data aggregators."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my financial data encrypted?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. All banking credentials and sensitive session tokens are encrypted locally with AES-256 Fernet symmetric cryptography. Financial transactions and accounts are stored inside a local SQLite database on your own machine."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is Finly an alternative to cloud apps like Finary or Bankin?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unlike SaaS aggregators that store your financial history on multi-tenant cloud servers and charge monthly fees, Finly is 100% free (MIT license), runs locally on your machine, never monetizes data, and produces zero cloud telemetry."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which platforms can run Finly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Finly is available as a standalone desktop application for Windows (.exe), macOS (.dmg and universal zip), and Linux (.deb and tarball), as well as via Docker Compose for self-hosting on a NAS or personal server."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   
   <!-- Preconnect Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,6 +186,7 @@
         <a href="#app" class="nav-pill-item">App</a>
         <a href="#architecture" class="nav-pill-item">Architecture</a>
         <a href="#security" class="nav-pill-item">Security</a>
+        <a href="#faq" class="nav-pill-item">FAQ</a>
         <a href="#download" class="nav-pill-item">Download</a>
       </nav>
 
@@ -151,6 +264,7 @@
       <a href="#app" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">App</a>
       <a href="#architecture" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Architecture</a>
       <a href="#security" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Security</a>
+      <a href="#faq" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">FAQ</a>
       <a href="#download" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Download & Deploy</a>
       <div class="pt-2 border-t border-zinc-200 dark:border-white/10 flex gap-2">
         <a href="https://github.com/louislefo/Finly" target="_blank" class="btn-secondary rounded-full text-xs flex-1 justify-center py-2">GitHub</a>
@@ -158,6 +272,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Main Content Landmark for Semantic SEO & Accessibility -->
+  <main id="main-content">
 
   <!-- Hero Section (Spacious Header + Peek Frame with Breathing Room) -->
   <section id="overview" class="pt-28 pb-16 sm:pt-36 sm:pb-24 relative overflow-hidden">
@@ -775,6 +892,99 @@ npm run dev</code></pre>
     </div>
   </section>
 
+  <!-- Frequently Asked Questions Section (SEO & GEO Optimised) -->
+  <section id="faq" class="py-20 sm:py-28 border-t border-zinc-200 dark:border-white/[0.08] bg-zinc-50/50 dark:bg-[#0c0c0e]/30 transition-colors duration-300">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="badge-minimal mb-3">Knowledge Base</div>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950 dark:text-white">Frequently Asked Questions</h2>
+        <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">Everything you need to know about Finly, security, banking connectors, and self-hosting.</p>
+      </div>
+
+      <div class="space-y-4">
+        
+        <!-- FAQ Item 1 -->
+        <details class="group card-surface p-5 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden" open>
+          <summary class="flex items-center justify-between font-semibold text-sm sm:text-base text-zinc-950 dark:text-white select-none">
+            <span>What is Finly and how does it differ from cloud aggregators?</span>
+            <span class="ml-4 flex-shrink-0 text-zinc-500 group-open:rotate-180 transition-transform duration-200">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </summary>
+          <p class="mt-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Finly is an open-source, 100% self-hosted wealth tracking and budgeting engine. Unlike cloud SaaS products (such as Finary, Bankin, or Mint) that monetize data or require recurring subscriptions, Finly runs entirely on your local hardware. All database queries, credentials, and transaction analyses stay within your control.
+          </p>
+        </details>
+
+        <!-- FAQ Item 2 -->
+        <details class="group card-surface p-5 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+          <summary class="flex items-center justify-between font-semibold text-sm sm:text-base text-zinc-950 dark:text-white select-none">
+            <span>How does direct bank synchronization work without cloud servers?</span>
+            <span class="ml-4 flex-shrink-0 text-zinc-500 group-open:rotate-180 transition-transform duration-200">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </summary>
+          <p class="mt-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Finly uses Woob (Web Outside of Browsers), a proven open-source multi-bank protocol engine. The sync process queries banking endpoints directly from your own IP address over TLS, eliminating the need for intermediate SaaS bridge servers or third-party credential brokers.
+          </p>
+        </details>
+
+        <!-- FAQ Item 3 -->
+        <details class="group card-surface p-5 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+          <summary class="flex items-center justify-between font-semibold text-sm sm:text-base text-zinc-950 dark:text-white select-none">
+            <span>How are my banking passwords and tokens secured?</span>
+            <span class="ml-4 flex-shrink-0 text-zinc-500 group-open:rotate-180 transition-transform duration-200">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </summary>
+          <p class="mt-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            All bank connector configurations and authentication tokens are encrypted locally with AES-256 Fernet symmetric cryptography using a unique local encryption secret. No telemetry or credentials ever leave your physical device.
+          </p>
+        </details>
+
+        <!-- FAQ Item 4 -->
+        <details class="group card-surface p-5 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+          <summary class="flex items-center justify-between font-semibold text-sm sm:text-base text-zinc-950 dark:text-white select-none">
+            <span>Which operating systems and deployment modes are supported?</span>
+            <span class="ml-4 flex-shrink-0 text-zinc-500 group-open:rotate-180 transition-transform duration-200">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </summary>
+          <p class="mt-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Finly is available as a standalone desktop application for Windows 10/11 (.exe installer and portable), macOS (.dmg universal for Apple Silicon and Intel), and Linux (.deb and tarball). It can also be deployed headlessly via Docker Compose on a Raspberry Pi, Synology NAS, Unraid, or private VPS.
+          </p>
+        </details>
+
+        <!-- FAQ Item 5 -->
+        <details class="group card-surface p-5 rounded-2xl cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+          <summary class="flex items-center justify-between font-semibold text-sm sm:text-base text-zinc-950 dark:text-white select-none">
+            <span>Can I export and own my raw financial transaction data?</span>
+            <span class="ml-4 flex-shrink-0 text-zinc-500 group-open:rotate-180 transition-transform duration-200">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </summary>
+          <p class="mt-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Yes. Finly provides client-side Excel spreadsheet and PDF report exports, along with raw, direct SQLite database access so you can query your historical data with Python, SQL, or BI tools at any time.
+          </p>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+  </main>
+
   <!-- Footer -->
   <footer class="border-t border-zinc-200 dark:border-white/[0.08] bg-[#fcfcfd] dark:bg-[#09090b] py-12 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -790,6 +1000,8 @@ npm run dev</code></pre>
         <a href="#banks" class="hover:text-zinc-950 dark:hover:text-white transition">Banks</a>
         <a href="#app" class="hover:text-zinc-950 dark:hover:text-white transition">App</a>
         <a href="#architecture" class="hover:text-zinc-950 dark:hover:text-white transition">Architecture</a>
+        <a href="#security" class="hover:text-zinc-950 dark:hover:text-white transition">Security</a>
+        <a href="#faq" class="hover:text-zinc-950 dark:hover:text-white transition">FAQ</a>
         <a href="#download" class="hover:text-zinc-950 dark:hover:text-white transition">Download</a>
         <a href="https://github.com/louislefo/Finly" target="_blank" class="hover:text-zinc-950 dark:hover:text-white transition">GitHub</a>
       </div>

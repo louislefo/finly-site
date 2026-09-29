@@ -1,0 +1,29 @@
+# Finly
+
+> Self-Hosted Personal Wealth & Finance System
+
+Finly is a modern, privacy-focused, open-source personal finance and wealth management system. It runs 100% locally on your machine or private server without third-party cloud telemetry or subscription fees.
+
+## Core Features
+
+- Direct Bank Sync: Direct synchronization with European and French banking institutions using the open-source Woob engine directly from your IP address.
+- 100% Local & Encrypted: Credentials are encrypted with symmetric AES-256 Fernet cryptography. Data is stored in a local SQLite database.
+- Wealth & Multi-Asset Tracking: Real-time net worth tracking across checking accounts, savings, investments, and custom assets.
+- Expense Tracking & Categorization: Automatic transaction categorization with custom rules and merchant analytics.
+- Envelope Budgeting: Zero-based budgeting with visual consumption gauges.
+- Cashflow Forecasting: Inflow versus outflow projection and liquidity curves.
+- Multi-Platform Desktop & Server: Standalone desktop apps for Windows (.exe), macOS (.dmg), Linux (.deb / .tar.gz), and Docker Compose deployment.
+
+## Technical Architecture
+
+- Frontend: Next.js 16, React 19, Tailwind CSS, Shadcn UI, Recharts, Lucide Icons.
+- Backend: FastAPI, Python 3.11+, SQLAlchemy, SQLite, APScheduler, Fernet AES-256 encryption.
+- Bank Connectors: Woob (Web Outside of Browsers).
+- Packaging: PyInstaller with embedded Python runtime for desktop builds.
+
+## Links
+
+- Website: https://louislefo.github.io/finly-site/
+- Repository: https://github.com/louislefo/Finly
+- Latest Releases: https://github.com/louislefo/Finly/releases/latest
+- License: MIT License

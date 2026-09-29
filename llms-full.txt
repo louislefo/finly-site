@@ -1,0 +1,42 @@
+# Finly — Complete Architecture & Reference
+
+Finly is an open-source, self-hosted personal finance and wealth management application. It offers a privacy-first alternative to cloud-based aggregators such as Finary, Bankin, Mint, or Linxo.
+
+## Philosophy & Core Principles
+
+1. 100% Data Sovereignty: All financial records, banking credentials, and analytics remain strictly on the user's device or self-hosted server.
+2. Direct Bank Integration: Bank synchronization happens directly from the user's IP to their financial institution using Woob, with zero intermediate third-party servers.
+3. High Performance: Zero network latency for dashboard analytics, instant page loads powered by local SQLite queries and Next.js static and client rendering.
+4. Open and Accessible: MIT licensed, fully transparent codebase, zero subscriptions.
+
+## Supported Platforms
+
+- Windows: Native standalone installer (Setup.exe) and standalone portable binary.
+- macOS: Apple Disk Image (.dmg) and universal portable archive supporting Apple Silicon and Intel.
+- Linux: Debian/Ubuntu package (.deb) and portable tarball (.tar.gz).
+- Docker: Production multi-container setup with Docker Compose.
+
+## Key Capabilities
+
+- Net Worth Dashboard: Multi-currency and multi-asset breakdown (checking, savings, crypto, real estate, brokerage).
+- Transaction Stream: Real-time search, filtering, custom tagging, and automatic rule-based categorization.
+- Expense Analytics: Spending heatmaps, category breakdown charts, recurring subscription detection.
+- Budgeting Engine: Zero-based envelope budgeting with rollover tracking.
+- Liquidity & Cashflow: Cash balance projection and upcoming bill forecasts.
+- Privacy Vault: AES-256 Fernet symmetric encryption for all bank credentials.
+
+## Deployment & Setup
+
+### Quick Docker Setup
+```bash
+git clone https://github.com/louislefo/Finly.git
+cd Finly
+docker compose up -d --build
+```
+Access UI: http://localhost:3000
+API Docs: http://localhost:8000/docs
+
+### Source Repositories & Resources
+- Website: https://louislefo.github.io/finly-site/
+- Repository: https://github.com/louislefo/Finly
+- Releases: https://github.com/louislefo/Finly/releases
