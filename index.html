@@ -14,12 +14,15 @@
   <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#fcfcfd" media="(prefers-color-scheme: light)">
   
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png?v=8">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png?v=8">
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/icon-512.png?v=8">
-  <link rel="shortcut icon" href="assets/images/favicon.ico?v=8">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icon-512.png?v=8">
+  <!-- Favicons (Google SERP & Device Optimized) -->
+  <link rel="icon" href="https://louislefo.github.io/finly-site/assets/images/favicon-48x48.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="https://louislefo.github.io/finly-site/assets/images/favicon-96x96.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="https://louislefo.github.io/finly-site/assets/images/favicon-192x192.png" sizes="192x192" type="image/png">
+  <link rel="icon" href="https://louislefo.github.io/finly-site/assets/images/icon-512.png" sizes="512x512" type="image/png">
+  <link rel="shortcut icon" href="https://louislefo.github.io/finly-site/assets/images/favicon-48x48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://louislefo.github.io/finly-site/assets/images/icon-512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
   
   <!-- Open Graph & Social Cards -->
   <meta property="og:site_name" content="Finly">
@@ -43,90 +46,103 @@
   <meta name="twitter:image:alt" content="Finly Personal Finance Dashboard Preview">
   <meta name="twitter:creator" content="@louislefo">
 
-  <!-- JSON-LD Structured Data for Rich Search Results -->
+  <!-- Schema.org WebSite (Google Site Name Specification) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "WebSite",
+    "name": "Finly",
+    "alternateName": ["Finly App", "Finly Finance", "Finly Self-Hosted"],
+    "url": "https://louislefo.github.io/finly-site/",
+    "description": "Private wealth tracking and budgeting hosted directly on your machine with direct bank synchronization.",
+    "publisher": {
+      "@type": "Person",
+      "name": "Louis Lefebvre",
+      "url": "https://github.com/louislefo"
+    }
+  }
+  </script>
+
+  <!-- Schema.org SoftwareApplication (Rich Snippet) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Finly",
+    "url": "https://louislefo.github.io/finly-site/",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Windows 10, Windows 11, macOS, Linux, Docker",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "description": "Open-source, self-hosted personal wealth tracking and budgeting dashboard with direct local bank synchronization.",
+    "softwareVersion": "1.0.26",
+    "downloadUrl": "https://github.com/louislefo/Finly/releases/latest",
+    "screenshot": "https://louislefo.github.io/finly-site/assets/images/Overview.png",
+    "license": "https://opensource.org/licenses/MIT",
+    "author": {
+      "@type": "Person",
+      "name": "Louis Lefebvre",
+      "url": "https://github.com/louislefo"
+    }
+  }
+  </script>
+
+  <!-- Schema.org FAQPage (Google SERP FAQ Accordion Snippet) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
       {
-        "@type": "SoftwareApplication",
-        "@id": "https://louislefo.github.io/finly-site/#software",
-        "name": "Finly",
-        "url": "https://louislefo.github.io/finly-site/",
-        "applicationCategory": "FinanceApplication",
-        "operatingSystem": "Windows 10, Windows 11, macOS, Linux, Docker",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EUR"
-        },
-        "description": "Open-source, self-hosted personal wealth tracking and budgeting dashboard with direct local bank synchronization.",
-        "softwareVersion": "1.0.26",
-        "downloadUrl": "https://github.com/louislefo/Finly/releases/latest",
-        "screenshot": "https://louislefo.github.io/finly-site/assets/images/Overview.png",
-        "license": "https://opensource.org/licenses/MIT",
-        "author": {
-          "@type": "Person",
-          "name": "Louis Lefebvre",
-          "url": "https://github.com/louislefo"
+        "@type": "Question",
+        "name": "What is Finly and how does it differ from cloud aggregators?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Finly is an open-source, 100% self-hosted wealth tracking and budgeting engine. Unlike cloud SaaS products (such as Finary, Bankin, or Mint) that monetize data or require recurring subscriptions, Finly runs entirely on your local hardware. All database queries, credentials, and transaction analyses stay within your control."
         }
       },
       {
-        "@type": "WebSite",
-        "@id": "https://louislefo.github.io/finly-site/#website",
-        "url": "https://louislefo.github.io/finly-site/",
-        "name": "Finly",
-        "description": "Private wealth tracking and budgeting hosted directly on your machine.",
-        "publisher": {
-          "@type": "Person",
-          "name": "Louis Lefebvre"
+        "@type": "Question",
+        "name": "Is Finly completely free and open-source?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Finly is 100% open-source under the MIT license and strictly self-hosted with no subscription fees or premium paywalls."
         }
       },
       {
-        "@type": "FAQPage",
-        "@id": "https://louislefo.github.io/finly-site/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is Finly?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Finly is an open-source, self-hosted personal wealth and budgeting system. It enables users to aggregate bank accounts, track net worth, organize budgets, and forecast cashflow locally without cloud reliance or subscription fees."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does Finly connect to bank accounts?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Finly integrates the open-source Woob banking connector engine. Connections are established directly between your device's IP address and your financial institution using TLS encryption, completely bypassing third-party cloud data aggregators."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is my financial data encrypted?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. All banking credentials and sensitive session tokens are encrypted locally with AES-256 Fernet symmetric cryptography. Financial transactions and accounts are stored inside a local SQLite database on your own machine."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How is Finly an alternative to cloud apps like Finary or Bankin?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Unlike SaaS aggregators that store your financial history on multi-tenant cloud servers and charge monthly fees, Finly is 100% free (MIT license), runs locally on your machine, never monetizes data, and produces zero cloud telemetry."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Which platforms can run Finly?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Finly is available as a standalone desktop application for Windows (.exe), macOS (.dmg and universal zip), and Linux (.deb and tarball), as well as via Docker Compose for self-hosting on a NAS or personal server."
-            }
-          }
-        ]
+        "@type": "Question",
+        "name": "How does Finly protect banking credentials?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All banking tokens and data are stored locally in an encrypted SQLite database using AES-256 Fernet symmetric cryptography with a unique local encryption secret. Zero telemetry or credentials ever leave your physical device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does direct bank synchronization work without cloud servers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Finly uses Woob (Web Outside of Browsers), a proven open-source multi-bank protocol engine. The sync process queries banking endpoints directly from your own IP address over TLS, eliminating intermediate SaaS bridge servers or third-party credential brokers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which operating systems and deployment modes are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Finly is available as a standalone desktop application for Windows 10/11 (.exe installer and portable), macOS (.dmg universal for Apple Silicon and Intel), Linux (.deb and tarball), as well as Docker Compose for NAS and home server deployments."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I export and own my raw financial transaction data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Finly provides client-side Excel spreadsheet and PDF report exports, along with raw, direct SQLite database access so you can query your historical data with Python, SQL, or BI tools at any time."
+        }
       }
     ]
   }
