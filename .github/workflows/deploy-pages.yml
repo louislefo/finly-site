@@ -1,0 +1,60 @@
+name: Deploy Site & Documentation
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install MkDocs Material & Extensions
+        run: |
+          pip install mkdocs-material
+
+      - name: Build MkDocs Documentation
+        run: |
+          mkdocs build --site-dir _site/docs
+
+      - name: Copy Landing Page and Static Assets
+        run: |
+          cp index.html _site/
+          cp -r assets _site/
+          [ -f robots.txt ] && cp robots.txt _site/ || true
+          [ -f sitemap.xml ] && cp sitemap.xml _site/ || true
+          [ -f llms.txt ] && cp llms.txt _site/ || true
+          [ -f llms-full.txt ] && cp llms-full.txt _site/ || true
+          [ -f .nojekyll ] && cp .nojekyll _site/ || touch _site/.nojekyll
+          [ -f google0546b3e893ac5da1.html ] && cp google0546b3e893ac5da1.html _site/ || true
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

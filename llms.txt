@@ -1,29 +1,39 @@
 # Finly
 
-> Self-Hosted Personal Wealth & Finance System
+> 100% Self-Hosted Personal Wealth & Finance Intelligence System
 
-Finly is a modern, privacy-focused, open-source personal finance and wealth management system. It runs 100% locally on your machine or private server without third-party cloud telemetry or subscription fees.
+Finly is an open-source, local-first personal finance platform providing direct bank synchronization without third-party brokers, envelope budgeting, real-time portfolio tracking, loan amortization modeling, and an embedded private AI assistant.
 
-## Core Features
-
-- Direct Bank Sync: Direct synchronization with European and French banking institutions using the open-source Woob engine directly from your IP address.
-- 100% Local & Encrypted: Credentials are encrypted with symmetric AES-256 Fernet cryptography. Data is stored in a local SQLite database.
-- Wealth & Multi-Asset Tracking: Real-time net worth tracking across checking accounts, savings, investments, and custom assets.
-- Expense Tracking & Categorization: Automatic transaction categorization with custom rules and merchant analytics.
-- Envelope Budgeting: Zero-based budgeting with visual consumption gauges.
-- Cashflow Forecasting: Inflow versus outflow projection and liquidity curves.
-- Multi-Platform Desktop & Server: Standalone desktop apps for Windows (.exe), macOS (.dmg), Linux (.deb / .tar.gz), and Docker Compose deployment.
-
-## Technical Architecture
-
-- Frontend: Next.js 16, React 19, Tailwind CSS, Shadcn UI, Recharts, Lucide Icons.
-- Backend: FastAPI, Python 3.11+, SQLAlchemy, SQLite, APScheduler, Fernet AES-256 encryption.
-- Bank Connectors: Woob (Web Outside of Browsers).
-- Packaging: PyInstaller with embedded Python runtime for desktop builds.
-
-## Links
+Finly runs entirely on your local machine (Windows, macOS, Linux, Docker). All financial transactions, account balances, and credentials remain private in a local SQLite database encrypted with AES-256 Fernet cryptography.
 
 - Website: https://louislefo.github.io/finly-site/
-- Repository: https://github.com/louislefo/Finly
-- Latest Releases: https://github.com/louislefo/Finly/releases/latest
+- Documentation: https://louislefo.github.io/finly-site/docs/
+- Changelog: https://louislefo.github.io/finly-site/docs/changelog/
+- Source Code: https://github.com/louislefo/Finly
 - License: MIT License
+
+## Core Documentation
+
+- [Overview & Philosophy](https://louislefo.github.io/finly-site/docs/getting-started/overview/): The local-first architectural mission and comparison matrix against cloud aggregators like Finary, Bankin, and Mint.
+- [Installation Guide](https://louislefo.github.io/finly-site/docs/getting-started/installation/): Step-by-step instructions for Windows Installer (.exe), Docker Compose, and source developer setup.
+- [Configuration Reference](https://louislefo.github.io/finly-site/docs/getting-started/configuration/): Backend environment variables, Pydantic settings, and client endpoints.
+- [System Architecture](https://louislefo.github.io/finly-site/docs/architecture/system-overview/): Component topology across FastAPI backend, Next.js 16 App Router, SQLite, and Woob.
+- [Database Schema](https://louislefo.github.io/finly-site/docs/architecture/database-schema/): Entity-relationship models for Users, Accounts, Transactions, Budgets, Investments, and Loans.
+- [Security & Privacy](https://louislefo.github.io/finly-site/docs/architecture/security-and-privacy/): Cryptographic specifications, bcrypt password hashing, JWT bearer tokens, and client privacy blur mode.
+- [Bank Synchronization & 2FA](https://louislefo.github.io/finly-site/docs/features/bank-synchronization/): Direct bank connections via Woob, Strong Customer Authentication (2FA/SCA) interactive challenge handling, and reconciliation.
+- [Transaction Engine & Rules](https://louislefo.github.io/finly-site/docs/features/transaction-engine/): Ingestion pipeline, rule matching (regex, contains, exact), and budget envelope exclusions.
+- [Budgeting & Cash Flow](https://louislefo.github.io/finly-site/docs/features/budgeting-and-analytics/): Envelope budgeting, checking account isolation, and interactive Sankey diagrams.
+- [Wealth & Portfolio Tracking](https://louislefo.github.io/finly-site/docs/features/wealth-and-investments/): Net worth equation ($$Assets - Liabilities$$), equities PRU cost basis, and live market quotes.
+- [Loans & Amortization](https://louislefo.github.io/finly-site/docs/features/loans-and-amortization/): French fixed-rate annuity installment calculation, amortization schedules, and early repayment simulator with IRA penalty caps.
+- [AI Financial Assistant](https://louislefo.github.io/finly-site/docs/features/assistant-and-ai/): Multi-provider AI assistant (local Ollama, OpenAI, Anthropic, Mistral, Groq) with an in-memory RAG vector store.
+- [Model Context Protocol (MCP)](https://louislefo.github.io/finly-site/docs/integrations/mcp-server/): Standard JSON-RPC 2.0 tool definitions for AI agents (Claude Desktop, Cursor).
+- [Import & Export](https://louislefo.github.io/finly-site/docs/integrations/import-export/): Universal CSV parser, encrypted JSON backup/restore, PDF and Excel report exports.
+- [Admin Console](https://louislefo.github.io/finly-site/docs/administration/admin-dashboard/): System metrics, SQLite VACUUM optimization, user impersonation, and 15-month demo seeder.
+
+## Key Capabilities & Technical Specifications
+
+- **Direct Banking Connectivity**: Uses open-source Woob protocol without cloud bridge brokers (Plaid, Bridge, Budget Insight). Supports SMS OTP and push notification in-app validation.
+- **Local AI RAG Engine**: Indexes financial contexts in-memory during queries. Never persists vectors in external cloud vector databases.
+- **Financial Mathematics**: French fixed-rate annuity installment formula $$M = P \frac{r(1+r)^n}{(1+r)^n - 1}$$, early repayment simulation with legal IRA caps under French Consumer Code Art. L313-47.
+- **High Information Density UI**: Next.js 16, React 19, Tailwind CSS, Shadcn UI, dark mode OLED Zinc 950 `#09090B`.
+- **Zero Telemetry**: No third-party tracking scripts, cookies, or external analytics.

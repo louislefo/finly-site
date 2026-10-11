@@ -5,3 +5,7 @@ Thumbs.db
 # Editor directories
 .vscode/
 .idea/
+
+# Build outputs
+/site/
+

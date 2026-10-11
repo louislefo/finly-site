@@ -1,42 +1,166 @@
-# Finly — Complete Architecture & Reference
+# Finly — Complete Technical Architecture & Knowledge Base
 
-Finly is an open-source, self-hosted personal finance and wealth management application. It offers a privacy-first alternative to cloud-based aggregators such as Finary, Bankin, Mint, or Linxo.
+> An exhaustive reference specification for Finly, an open-source, local-first personal wealth and financial intelligence system.
 
-## Philosophy & Core Principles
+---
 
-1. 100% Data Sovereignty: All financial records, banking credentials, and analytics remain strictly on the user's device or self-hosted server.
-2. Direct Bank Integration: Bank synchronization happens directly from the user's IP to their financial institution using Woob, with zero intermediate third-party servers.
-3. High Performance: Zero network latency for dashboard analytics, instant page loads powered by local SQLite queries and Next.js static and client rendering.
-4. Open and Accessible: MIT licensed, fully transparent codebase, zero subscriptions.
+## 1. Executive Summary & Philosophy
 
-## Supported Platforms
+Finly is a self-hosted personal finance platform engineered as a private alternative to cloud wealth aggregators (such as Finary, Bankin, Mint, and Linxo).
 
-- Windows: Native standalone installer (Setup.exe) and standalone portable binary.
-- macOS: Apple Disk Image (.dmg) and universal portable archive supporting Apple Silicon and Intel.
-- Linux: Debian/Ubuntu package (.deb) and portable tarball (.tar.gz).
-- Docker: Production multi-container setup with Docker Compose.
+### Core Principles
+1. **Local-First Data Sovereignty**: All financial records, banking tokens, and analytics reside strictly on the user's host in a local SQLite database (`data/finly.db`).
+2. **Direct Bank Synchronization**: Interacts directly with banking APIs and scraping endpoints via the open-source Woob protocol without routing sensitive credentials through third-party data brokers (e.g., Plaid, Bridge, Budget Insight).
+3. **Deterministic Financial Mathematics**: Implements standard banking equations for fixed-rate annuity amortization, IRA early repayment legal caps, and Net Worth balance sheets.
+4. **Local AI & Cloud Fallbacks**: Provides an in-memory RAG financial assistant that can execute 100% locally via Ollama or connect to private user-supplied cloud keys (OpenAI, Anthropic, Mistral, Groq).
+5. **Open Standards & Interoperability**: Exposes a Model Context Protocol (MCP) server, universal CSV parsing, encrypted JSON backups, and direct SQLite queryability.
 
-## Key Capabilities
+---
 
-- Net Worth Dashboard: Multi-currency and multi-asset breakdown (checking, savings, crypto, real estate, brokerage).
-- Transaction Stream: Real-time search, filtering, custom tagging, and automatic rule-based categorization.
-- Expense Analytics: Spending heatmaps, category breakdown charts, recurring subscription detection.
-- Budgeting Engine: Zero-based envelope budgeting with rollover tracking.
-- Liquidity & Cashflow: Cash balance projection and upcoming bill forecasts.
-- Privacy Vault: AES-256 Fernet symmetric encryption for all bank credentials.
+## 2. Technical Stack & Topology
 
-## Deployment & Setup
+- **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS, Shadcn UI primitives, Recharts, Lucide Icons, jsPDF.
+- **Theme**: Dark Mode OLED (canvas `#09090B`, surfaces `#18181B`, borders `border-white/10`).
+- **Backend**: FastAPI (Python 3.11+), Pydantic v2 Settings, SQLAlchemy 2.0 ORM, APScheduler, Passlib/Bcrypt, PyJWT, Cryptography (AES-256 Fernet).
+- **Banking Engine**: Woob (Web Outside of Browsers).
+- **Persistence**: SQLite 3 with Write-Ahead Logging (`PRAGMA journal_mode=WAL;`).
+- **AI Inference**: Ollama (`http://127.0.0.1:11434`) with default model `qwen2.5:3b`, plus OpenAI, Anthropic, Mistral, and Groq HTTP adapters.
 
-### Quick Docker Setup
+---
+
+## 3. Database Schema & Data Models
+
+### `users`
+- `id` (PK, String): Unique identifier (e.g., `usr_...`).
+- `email` (Unique, String): Login email.
+- `hashed_password` (String): Bcrypt work factor 12 hash.
+- `role` (String): `'admin'` or `'member'`.
+- `language` (String): `'en'` or `'fr'`.
+- `avatar_seed` (String): DiceBear Line-Face avatar seed.
+- `auto_sync_enabled` (Boolean): Background scheduled bank sync flag.
+- `sync_interval_hours` (Integer): Sync frequency (6, 12, 24 hours).
+
+### `bank_connections`
+- `id` (PK, String): Connection identifier (`conn_...`).
+- `user_id` (FK, String): Linked user identifier.
+- `module_name` (String): Woob module (e.g., `bourso`, `fortuneo`, `creditagricole`).
+- `bank_name` (String): User-facing institution name.
+- `login` (String): Online banking login identifier.
+- `password` (String): AES-256 Fernet encrypted credential string.
+- `backend_name` (String): Unique identifier of local Woob backend storage.
+- `status` (String): `'connected'`, `'action_needed'`, `'error'`.
+- `custom_params` (Text): JSON string storing regional bank codes and module configurations.
+
+### `accounts`
+- `id` (PK, String): Account identifier (`acc_...`).
+- `user_id` (FK, String): Linked user identifier.
+- `bank_account_id` (String): Bank-assigned account number or IBAN.
+- `name` (String): Account label (e.g., "Compte Courant", "Livret A", "PEA").
+- `account_type` (String): `'Compte Courant'`, `'Livret A'`, `'Plan d\'Épargne en Actions'`, `'Assurance Vie'`, `'Brokerage'`.
+- `balance` (Float): Current settled balance.
+- `currency` (String): ISO-4217 currency code (e.g., `'EUR'`).
+
+### `transactions`
+- `id` (PK, String): Transaction identifier (`tx_...`).
+- `user_id` (FK, String): Linked user identifier.
+- `account_id` (FK, String): Source account identifier.
+- `bank_tx_id` (String): Bank-assigned operation ID.
+- `booking_date` (String): Settled date (`YYYY-MM-DD`).
+- `value_date` (String): Value date (`YYYY-MM-DD`).
+- `amount` (Float): Signed amount (+ for credits, - for debits).
+- `raw_label` (String): Raw bank statement string.
+- `merchant_name` (String): Cleaned merchant entity.
+- `category` (String): Main spending or revenue category.
+- `subcategory` (String): Granular classification.
+- `is_user_classified` (Boolean): Locks record from automatic re-classification.
+- `is_excluded_from_budget` (Boolean): Excludes transaction from envelope consumption (e.g., internal transfers, savings deposits, debt amortization).
+
+### `loans`
+- `id` (PK, String): Identifier (`loan_...`).
+- `user_id` (FK, String): Linked user identifier.
+- `name` (String): Description (e.g., "Crédit Immobilier RP").
+- `loan_type` (String): `'mortgage'`, `'auto'`, `'consumer'`, `'student'`, `'other'`.
+- `principal_amount` (Float): Total borrowed capital.
+- `interest_rate` (Float): Annual interest rate in percent (e.g., `3.10`).
+- `insurance_rate` (Float): Annual insurance rate in percent (e.g., `0.28`).
+- `duration_months` (Integer): Loan term in months (e.g., `240`).
+- `start_date` (String): First payment date (`YYYY-MM-DD`).
+- `monthly_payment` (Float): Computed or customized monthly installment.
+- `linked_account_id` (String): Debit account for monthly payments.
+
+### `investment_holdings`
+- `id` (PK, String): Position identifier (`hold_...`).
+- `account_id` (String): Linked brokerage or PEA account.
+- `symbol` (String): Ticker symbol (e.g., `CW8`, `MC.PA`).
+- `quantity` (Float): Total units held.
+- `buy_price` (Float): Weighted average purchase price (PRU).
+- `current_price` (Float): Live delayed market quotation.
+- `sector` (String): Economic sector classification.
+
+---
+
+## 4. Financial Mathematics & Algorithms
+
+### 4.1 Net Worth Balance Sheet Equation
+$$\text{Net Worth} = \text{Gross Assets} - \text{Total Liabilities}$$
+- **Gross Assets** = Liquid Checking + Guaranteed Savings (Livret A, LDDS) + Equities Valuation ($\sum \text{Qty} \times \text{Current Price}$) + Real Estate Project Savings.
+- **Total Liabilities** = Outstanding Principal on active Loans.
+
+### 4.2 French Fixed-Rate Annuity Installment ($M$)
+$$M = P \times \frac{r(1+r)^n}{(1+r)^n - 1}$$
+Where $P$ is principal, $r = \frac{\text{Annual Interest Rate}}{100 \times 12}$, and $n$ is total months.
+
+### 4.3 Borrower Insurance Monthly Installment
+$$I_{\text{ins}} = P \times \frac{\text{Annual Insurance Rate}}{100 \times 12}$$
+$$\text{Total Monthly Installment} = M + I_{\text{ins}}$$
+
+### 4.4 Early Repayment Simulator & French Legal IRA Penalty Cap
+Under French Consumer Code Art. L313-47, the penalty (Indemnité de Remboursement Anticipé - IRA) cannot exceed:
+$$\text{IRA} = \min\left(\text{Repayment Amount} \times 3\%,\; \text{Repayment Amount} \times \frac{\text{Annual Interest Rate}}{100} \times \frac{6}{12}\right)$$
+Two strategies:
+- **Duration Reduction**: Keeps monthly payment identical, shortens maturity, maximizes compound interest savings.
+- **Installment Reduction**: Keeps maturity identical, reduces monthly installment, frees monthly cash flow.
+
+---
+
+## 5. Bank Synchronization & Interactive 2FA State Machine
+
+When a bank enforces Strong Customer Authentication (SCA/PSD2):
+1. Client calls `POST /api/v1/woob/connect`.
+2. Woob session raises `NeedInteractive` or `AppValidation`.
+3. Backend returns challenge descriptor with `challenge_id`.
+4. Client displays interactive modal for either:
+   - SMS OTP Code -> `POST /api/v1/woob/challenge/respond`
+   - Mobile Push Notification Approval -> `POST /api/v1/woob/challenge/poll`
+5. On approval, backend finalizes account and transaction ingestion.
+6. Existing transactions are matched by `bank_tx_id` or composite hash (`booking_date` + `amount` + `raw_label`), ensuring manual user classifications (`is_user_classified`) are never overwritten.
+
+---
+
+## 6. Model Context Protocol (MCP) Server Specification
+
+Finly exposes standard JSON-RPC 2.0 tools for LLMs:
+- `get_financial_overview`: Returns Net Worth, gross assets, liabilities, and monthly cash flow.
+- `list_accounts`: Returns all connected accounts, balances, and institutions.
+- `list_transactions`: Filters transactions by limit, date range, category, or search string.
+- `get_budget_summary`: Returns active envelope consumption and remaining thresholds.
+- `get_loans_summary`: Returns active debts, remaining principal, and monthly installments.
+- `get_bank_sync_health`: Returns connectivity status of banking modules.
+
+---
+
+## 7. Deployment Commands
+
+### Docker Compose
 ```bash
 git clone https://github.com/louislefo/Finly.git
 cd Finly
-docker compose up -d --build
+docker compose up -d
 ```
-Access UI: http://localhost:3000
-API Docs: http://localhost:8000/docs
 
-### Source Repositories & Resources
-- Website: https://louislefo.github.io/finly-site/
-- Repository: https://github.com/louislefo/Finly
-- Releases: https://github.com/louislefo/Finly/releases
+### Windows Desktop Build
+Run `Finly-Setup-vX.Y.Z.exe` (built with Inno Setup). Preserves `data/finly.db` across all upgrades.
+
+### Default Boot Credentials
+- Email: `admin` (or `admin@finly.local`)
+- Password: `admin`

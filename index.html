@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Finly — Self-Hosted Personal Wealth &amp; Finance System</title>
-  <meta name="description" content="Private wealth tracking, direct bank sync with Woob, and simple budgeting. 100% self-hosted, encrypted, and open-source personal finance dashboard.">
-  <meta name="keywords" content="finly, self hosted personal finance, open source wealth tracker, direct bank sync, woob banking, budget manager, finary alternative open source, local first finance, net worth tracker, sqlite finance">
+  <meta name="description" content="Private wealth tracking, direct bank sync with Woob, loan amortization, and envelope budgeting. 100% self-hosted, encrypted, and open-source personal finance dashboard with local AI assistant.">
+  <meta name="keywords" content="finly, self hosted personal finance, open source wealth tracker, direct bank sync, woob banking, budget manager, finary alternative open source, local first finance, net worth tracker, sqlite finance, loan amortization tracker, mcp personal finance, local ollama finance assistant, woob 2fa bank sync, privacy personal finance">
   <meta name="author" content="Louis Lefebvre">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="google-site-verification" content="4wXa6Y7ytgfPB9Kzv66zwqoKlHwgY_TwUFcfS4t-mPc">
@@ -14,6 +14,14 @@
   <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#fcfcfd" media="(prefers-color-scheme: light)">
   
+  <!-- Geographic & Locale (GEO) Optimization -->
+  <meta name="geo.region" content="FR-IDF">
+  <meta name="geo.placename" content="Paris">
+  <meta name="geo.position" content="48.8566;2.3522">
+  <meta name="ICBM" content="48.8566, 2.3522">
+  <meta name="coverage" content="Worldwide">
+  <meta name="distribution" content="Global">
+
   <!-- Favicons (Google SERP & Device Optimized) -->
   <link rel="icon" href="https://louislefo.github.io/finly-site/assets/images/favicon-48x48.png" sizes="48x48" type="image/png">
   <link rel="icon" href="https://louislefo.github.io/finly-site/assets/images/favicon-96x96.png" sizes="96x96" type="image/png">
@@ -77,11 +85,20 @@
       "price": "0",
       "priceCurrency": "EUR"
     },
-    "description": "Open-source, self-hosted personal wealth tracking and budgeting dashboard with direct local bank synchronization.",
+    "description": "Open-source, self-hosted personal wealth tracking, loan amortization, and budgeting dashboard with direct local bank synchronization and private AI assistant.",
     "softwareVersion": "1.0.26",
     "downloadUrl": "https://github.com/louislefo/Finly/releases/latest",
     "screenshot": "https://louislefo.github.io/finly-site/assets/images/Overview.png",
     "license": "https://opensource.org/licenses/MIT",
+    "featureList": [
+      "Direct bank synchronization using Woob with interactive 2FA/SCA challenge support",
+      "Loan and debt amortization tracking with French fixed-rate annuity schedules and early repayment simulations",
+      "Multi-provider AI financial assistant supporting local Ollama and private cloud API keys",
+      "Built-in Model Context Protocol (MCP) server for Claude Desktop and Cursor integration",
+      "Stocks and equities portfolio hub with live market quotes and PRU cost-basis calculations",
+      "Envelope budgeting with checking account isolation and interactive Sankey cash flow diagrams",
+      "AES-256 Fernet encrypted local SQLite database with zero external telemetry"
+    ],
     "author": {
       "@type": "Person",
       "name": "Louis Lefebvre",
@@ -90,7 +107,7 @@
   }
   </script>
 
-  <!-- Schema.org FAQPage (Google SERP FAQ Accordion Snippet) -->
+  <!-- Schema.org FAQPage (Google SERP & LLM Citation Rich Snippet) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -126,6 +143,38 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Finly uses Woob (Web Outside of Browsers), a proven open-source multi-bank protocol engine. The sync process queries banking endpoints directly from your own IP address over TLS, eliminating intermediate SaaS bridge servers or third-party credential brokers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Finly support Strong Customer Authentication (2FA/SCA) and regional banks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Finly includes an interactive challenge state machine that prompts the user for SMS OTP verification codes or polls for mobile in-app approvals. It also supports regional cooperative banks (such as Caisse d'Épargne, Crédit Agricole, and Banque Populaire) via persistent regional selectors."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I track mortgages, loans, and early repayments in Finly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Finly features a dedicated Loans module that calculates exact French fixed-rate annuity amortization schedules. It also includes an early repayment simulator that models lump-sum prepayments (duration reduction vs monthly payment reduction) with French legal IRA penalty caps under Article L313-47 of the French Consumer Code."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the AI Financial Assistant work without sending my data to the cloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Finly connects to a local Ollama server running directly on your computer (such as qwen2.5:3b or llama3.2). Context from account balances, budgets, and loans is synthesized in memory using local RAG, meaning your financial figures never leave your device. Users can also optionally configure private cloud API keys (OpenAI, Anthropic, Mistral, Groq) if preferred."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Finly integrate with AI agents like Claude Desktop or Cursor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Finly exposes a built-in Model Context Protocol (MCP) server over JSON-RPC 2.0, allowing local AI coding assistants to securely query account balances, search transactions, inspect active budgets, and review debt commitments."
         }
       },
       {
@@ -203,6 +252,8 @@
         <a href="#architecture" class="nav-pill-item">Architecture</a>
         <a href="#security" class="nav-pill-item">Security</a>
         <a href="#faq" class="nav-pill-item">FAQ</a>
+        <a href="docs/" class="nav-pill-item">Docs</a>
+        <a href="docs/changelog/" class="nav-pill-item">Updates</a>
         <a href="#download" class="nav-pill-item">Download</a>
       </nav>
 
@@ -267,6 +318,8 @@
       <a href="#architecture" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Architecture</a>
       <a href="#security" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Security</a>
       <a href="#faq" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">FAQ</a>
+      <a href="docs/" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Documentation</a>
+      <a href="docs/changelog/" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Updates & Changelog</a>
       <a href="#download" class="block text-sm text-zinc-700 dark:text-zinc-300 py-1 px-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/5">Download & Deploy</a>
       <div class="pt-2 border-t border-zinc-200 dark:border-white/10 flex gap-2">
         <a href="https://github.com/louislefo/Finly" target="_blank" class="btn-secondary rounded-full text-xs flex-1 justify-center py-2">GitHub</a>

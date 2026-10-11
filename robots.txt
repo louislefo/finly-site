@@ -1,14 +1,29 @@
-# Allow all standard search engines
+# Robots.txt for Finly Website & Documentation
+# Allow all standard web search crawlers and AI retrieval agents
+
 User-agent: *
 Allow: /
+Allow: /docs/
+Allow: /llms.txt
+Allow: /llms-full.txt
 
-# Explicit permissions for AI and agentic search crawlers
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Generative AI & LLM Search Agents (GEO Optimization)
 User-agent: GPTBot
 Allow: /
 
@@ -24,14 +39,20 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Applebot
+User-agent: Google-Extended
 Allow: /
 
-User-agent: Applebot-Extended
+User-agent: Cohere-ai
 Allow: /
 
-User-agent: DuckDuckBot
+User-agent: CCBot
 Allow: /
 
-# Sitemap definition
+User-agent: Diffbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# Sitemap Location
 Sitemap: https://louislefo.github.io/finly-site/sitemap.xml
